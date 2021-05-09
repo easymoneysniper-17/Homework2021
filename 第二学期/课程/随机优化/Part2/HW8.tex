@@ -1,0 +1,251 @@
+\documentclass{article}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{comment}
+%\include{macros}
+%\usepackage{floatflt}
+%\usepackage{graphics}
+%\usepackage{epsfig}
+
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{defition}{Definition}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{exercise}{Exercise}
+
+\setlength{\oddsidemargin}{-0.25 in}
+\setlength{\evensidemargin}{-0.25 in} \setlength{\topmargin}{-0.25
+in} \setlength{\textwidth}{7 in} \setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.25 in} \setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\homework}[5]{
+\pagestyle{myheadings} \thispagestyle{plain}
+\newpage
+\setcounter{page}{1} \setcounter{section}{#5} \noindent
+\begin{center}
+\framebox{ \vbox{\vspace{2mm} \hbox to 6.28in { {\bf
+Part~II:~Stochastic~Programming~(Spring 2021) \hfill Homework: 08} }
+\vspace{6mm} \hbox to 6.28in { {\Large \hfill #1 \hfill} }
+\vspace{6mm} \hbox to 6.28in { {\it Lecturer: #2 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it \hspace{13mm} #3 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it Student: #4 \hfill} }
+\vspace{2mm} } }
+\end{center}
+\markboth{#1}{#1} \vspace*{4mm} }
+
+
+\begin{document}
+
+\homework{Lecture 2: Uncertainty and Modeling Issues}
+{Junlong Zhang \hspace{5mm} {\tt zhangjunlong@tsinghua.edu.cn}}
+{}
+{Zhenyu Jin \hspace{11mm} {\tt jzy20@mails.tsinghua.edu.cn}}{8}
+
+
+\section*{P1.}
+Let $x$ represent the first-stage production of a given good. Let $\xi$ be the
+demand for the same good. A typical second stage would consist of
+selling as much as possible, namely, min($\xi$, $x$). Obtain a closed form
+expression for the recourse function $E_{\xi}[min(\xi, x)]$ in the following
+cases of $\xi$:
+\begin{itemize}
+    \item (a) Poisson distribution,
+    \item (b) A normal distribution.
+\end{itemize}
+\subsection*{Solution:}
+\begin{itemize}
+    \item (a) Suppose that $\xi \sim P(\lambda)$
+    \begin{equation*}
+        E_{\xi}[min(\xi, x)] = \sum_{\xi=0}^{x} \xi e^{-\lambda}
+         \frac{\lambda^{\xi}}{\xi!} + \sum_{\xi=x+1}^{\infty} x e^{-\lambda}
+         \frac{\lambda^{\xi}}{\xi!} 
+    \end{equation*}
+    \item (b) Suppose that $\xi \sim N(\mu, \sigma^2)$
+    \begin{equation*}
+        \begin{aligned}
+        E_{\xi}[min(\xi, x)] &= \frac{1}{\sqrt{2\pi}\sigma}(\int_{-\infty}^x 
+                                \xi e^{-\frac{(\xi-\mu)^2}{2\sigma^2}} d\xi +
+                                \int_x^{\infty} x e^{-\frac{(\xi-\mu)^2}{2\sigma^2}} d\xi)  \\
+                             &= \frac{\sigma}{\sqrt{2\pi}}(1-e^{-\frac{(\frac{x-\mu}{\sigma})^2}{2}})
+                                \frac{1}{\sqrt{2\pi}\sigma}[\mu \phi(x) + x(1-\phi(x))]
+        \end{aligned}
+    \end{equation*}
+\end{itemize}
+
+
+\section*{P2.}
+Consider an airplane with $x$ seats. Assume passengers with reservations
+show up with probability $0.90$, independently of each other.
+\begin{itemize}
+    \item (a) Let $x = 40$. If $42$ passengers receive a reservation, what is the
+    probability that at least one is denied seat.
+    \item (b) Let $x = 50$. How many reservations can be accepted under the
+    constraint that the probability of seating all passengers who arrive
+    for the flight is greater than 90$\%$ ?
+\end{itemize} 
+
+\subsection*{Solution:}
+\begin{itemize}
+	\item (a) Donate $Y$ as the number of customer shows up.
+    \begin{equation*}
+        \begin{aligned}
+            P=P\{Y=41\}+P\{Y=42\}=42*0.9^{41} \times 0.1 +0.9^{42}
+        \end{aligned}
+    \end{equation*}
+	\item (b)
+    \begin{equation*}
+        \begin{aligned}
+            &P\{Y=y\} = C_{50}^y p^y(1-p)^{50-y} \\
+            &E[Y] = \sum_0^{50} C_{50}^y yp^y(1-p)^{50-y}
+        \end{aligned}
+    \end{equation*}	
+\end{itemize}
+
+
+\section*{P3.}
+Show that VaR is not a coherent risk measure.
+\subsection*{Solution:}
+\begin{itemize}
+    \item The coherent risk measure has the following property 
+according to the wikipedia: Sub-additivity.
+    \item Sub-additivity: If $Z_1$, $Z_2$ $\in$ $\mathcal{L}$ ,
+then $\varrho(Z_1 + Z_2)$ $\leq$ $\varrho(Z_1) + \varrho(Z_2)$, i.e., 
+the risk of two portfolios together cannot get any worse than adding 
+the two risks separately: this is the diversification principle.
+    \item VaR obviously doesn't respect the sub-additivity property.
+    \item According to the definition of the VaR: $VaR_{\alpha}(\xi)$=$min$\{$t$$|$$P(\xi \leq t)\geq \alpha$\}. 
+    \item As a simple example to demonstrate the non-coherence of value-at-risk 
+consider looking at the VaR of a portfolio at 95$\%$ 
+confidence over the next year of two default-able zero coupon bonds that mature 
+in 1 years time denominated in our numeraire currency. \\
+
+    Assume the following:\\
+    \begin{itemize}
+        \item The current yield on the two bonds is 0$\%$
+        \item The two bonds are from different issuers
+        \item Each bond has a 4$\%$ probability of defaulting over the next year
+        \item The event of default in either bond is independent of the other
+        \item Upon default the bonds have a recovery rate of 30$\%$
+    \end{itemize}
+    Under these conditions the 95$\%$ VaR for holding either of the bonds 
+        is 0 since the probability of default is less than 5$\%$. However if we held 
+        a portfolio that consisted of 50$\%$ of each bond by value then the 95$\%$
+        VaR is 35$\%$ (= 0.5*0.7 + 0.5*0) since the probability of at least one of 
+        the bonds defaulting is 7.84$\%$ (= 1 - 0.96*0.96) which exceeds 5$\%$.
+        This violates the sub-additivity property showing that VaR is not a coherent
+        risk measure.
+\end{itemize}
+
+
+\section*{P4.}
+Prove that CVaR is a coherent risk measure.
+\subsection*{Solution:}
+\begin{itemize}
+    \item Let $F(x)$ be a probability distribution of a random variable $X$.
+    \begin{equation*}
+        \begin{aligned}
+            F(x) = Prob{X \leq x} 
+        \end{aligned}
+    \end{equation*}
+    and for some probability $q \in (0, 1)$ let’s define the q-quantile
+    \begin{equation*}
+        \begin{aligned}
+            x_q = inf\{x|F(x) \geq q\}
+        \end{aligned}
+    \end{equation*}
+    \item If $F(·)$ is continuous we have $F(x_q) = q$, while if $F(·)$ is discontinuous in $x_q$ and therefore $Prob{X = x_q} > 0$
+    we may have $F(x_q)$ = $Prob{X \leq xq} > q$. Our definition of q-Tail Mean $x_q$ as the “expected value of the
+    distribution in the q-quantile” must take this fact into account.
+    \item Definition: For a random variable $X$ and for a specified level of probability $q$, let’s define the q-Tail Mean:
+    \begin{equation*}
+        \begin{aligned}
+            \overline{x_q} & \equiv \frac{1}{q} E\{X 1_{X\leq x_q} \}	
+            + (1 -\frac{F(x_q)}{q})x_q \\
+            & =\frac{1}{q} E\{X 1_{X\leq x_q}^{q} \}
+        \end{aligned}
+    \end{equation*}  
+    where in the last expression we introduced
+    \begin{equation*}
+        \begin{aligned}
+            1_{X\leq x_q}^{q} = 1_{X\leq x_q} + \frac{q-F(x_q)}{Prob{X = x_q}}1_{X = x_q}^{q}
+        \end{aligned}
+    \end{equation*}  
+    \item The second term in the sum is zero if $Prob{X = x_q} = 0$. In what follows we will make use of the following
+    properties:
+    \begin{equation*}
+        \begin{aligned}
+            & E\{X 1_{X\leq x_q}^{q} \} = q \\
+            & 0 \leq 1_{X\leq x_q}^{q} \leq 1
+        \end{aligned}
+    \end{equation*}  
+    \item The only thing to show is in the case $X = x_q$:
+    \begin{equation*}
+        \begin{aligned}
+            1_{X\leq x_q}^{q} |_{X = x_q}= 1 + \frac{q-F(x_q)}{Prob{X = x_q}} = \frac{q-F(x_q)}{Prob{X = x_q^-}} \in [0,1]
+        \end{aligned}
+    \end{equation*} 
+\end{itemize}
+
+
+
+\section*{P5.}
+Prove that CVaR is an upper bound of VaR.
+\subsection*{Solution:}
+\begin{equation*}
+    \begin{aligned}
+        CVaR_{\alpha} &= E(X|X\geq q_{\alpha}) = \frac{E(X1_{X \geq x_q})}
+                        {Prob\{X \geq x_q\}}  \\ 
+                      &= \frac{E(X-q_{\alpha}+q_{\alpha}1_{X\geq q_{\alpha}})}{Prob\{X \geq x_q\}} \\
+                      &= \frac{E((X- q_{\alpha})1_{X \geq x_q})}
+                      {Prob{X \geq x_q}}  + q_{\alpha} \frac{E(1_{X \geq x_q})}{Prob\{X \geq x_q\}}\\ 
+                      &= \frac{E((X-q_{\alpha})^+)}{\alpha} + q_{\alpha} \\
+                      &\geq q_{\alpha} \\
+                      &= VaR_{\alpha}
+    \end{aligned}
+\end{equation*}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
