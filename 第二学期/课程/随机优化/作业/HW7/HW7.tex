@@ -1,0 +1,198 @@
+\documentclass{article}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{comment}
+%\include{macros}
+%\usepackage{floatflt}
+%\usepackage{graphics}
+%\usepackage{epsfig}
+
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{defition}{Definition}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{exercise}{Exercise}
+
+\setlength{\oddsidemargin}{-0.25 in}
+\setlength{\evensidemargin}{-0.25 in} \setlength{\topmargin}{-0.25
+in} \setlength{\textwidth}{7 in} \setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.25 in} \setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\homework}[5]{
+\pagestyle{myheadings} \thispagestyle{plain}
+\newpage
+\setcounter{page}{1} \setcounter{section}{#5} \noindent
+\begin{center}
+\framebox{ \vbox{\vspace{2mm} \hbox to 6.28in { {\bf
+Part~II:~Stochastic~Programming~(Spring 2021) \hfill Homework: 07} }
+\vspace{6mm} \hbox to 6.28in { {\Large \hfill #1 \hfill} }
+\vspace{6mm} \hbox to 6.28in { {\it Lecturer: #2 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it \hspace{13mm} #3 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it Student: #4 \hfill} }
+\vspace{2mm} } }
+\end{center}
+\markboth{#1}{#1} \vspace*{4mm} }
+
+
+\begin{document}
+
+\homework{Lecture 1: Introduction and Examples}
+{Junlong Zhang \hspace{5mm} {\tt zcs@mail.tsinghua.edu.cn}}
+{}
+{Zhenyu Jin \hspace{11mm} {\tt jzy20@mails.tsinghua.edu.cn}}{8}
+
+\section*{3. Binary first stage}
+Consider the case where the farmer possesses four fields of sizes 185, 145, 105, and 65 acres, respectively. Observe that the total of 500 acres is unchanged. Now, the fields are unfortunately located in different parts of the village. For reasons of efficiency the farmer wants to raise only one type of crop on each field. Formulate this model as a two-stage stochastic program with a first-stage program with binary variables.
+\section*{Solution:}
+\begin{itemize}
+	\item Donate binary variable $z_{ij}=1$ if type $i$ is located in the part $j$, otherwise $z_{ij}=0$. Then we can obtain that,
+\[
+\sum_{i=1}^3 z_{ij}=1, j=1,\cdots,4
+\]
+	\item And the relationship between $z_{ij}$ and $x_{ij}$ is: $x_i=185z_{i1}+145z_{i2}+105z_{i3}+65z_{i4}$.
+	\item Then the two-stage stochastic program model can be interpreted as:
+\begin{equation}
+\begin{aligned}
+min \quad &150x_1+230x_2+260x_3 \\
+&-\frac{1}{3}(170w_{11}-238y_{11}+150w_{21}-210y_{21}+36w_{31}+10w_{41}) \\
+&-\frac{1}{3}(170w_{12}-238y_{12}+150w_{22}-210y_{22}+36w_{32}+10w_{42}) \\
+&-\frac{1}{3}(170w_{13}-238y_{13}+150w_{23}-210y_{23}+36w_{33}+10w_{43}) \\
+s.t. \quad &x_1+x_2+x_3\leq500, 3x_1+y_{11}-w_{11}\geq200 \\
+&3.6x_2+y_{21}-w_{21}\geq240, w_{31}+w_{41}\leq24x_3,w_{31}\leq6000 \\
+&2.5x_1+y_{12}-w_{12}\geq200, 3x_2+y_{22}-w_{22}\geq240 \\               
+&w_{32}+w_{42}\leq20x_3, w_{32}\leq6000,2x_1+y_{13}-w_{13}\geq200 \\   
+&2.4x_2+y_{23}-w_{23}\geq240, w_{33}+w_{43}\leq16x_3,w_{33}\leq6000 \\
+&\sum_{i=1}^3 z_{ij}=1,j=1,\cdots ,4 \\
+&x_i=185z_{i1}+145z_{i2}+105z_{i3}+65z_{i4},i=1,2,3 \\
+&x,y,w\geq0,z_{ij}={0,1}
+\end{aligned}
+\end{equation}
+
+\end{itemize}
+
+
+\section*{4. Integer second stage}
+Consider the case where sales and purchases of corn and wheat can
+only be obtained through contracts involving multiples of hundred
+tons. Formulate the model as a stochastic program with a mixedinteger
+second stage.
+\section*{Solution:}
+\begin{itemize}
+\item In this problem, we should restrain that $y,w\in Z$, then we have the model of a stochastic program with a mixed-integer second stage:
+\begin{equation}
+\begin{aligned}
+min \quad &150x_1+230x_2+260x_3 \\
+&-\frac{100}{3}(170w_{11}-238y_{11}+150w_{21}-210y_{21}+36w_{31}+10w_{41})\\
+&-\frac{100}{3}(170w_{12}-238y_{12}+150w_{22}-210y_{22}+36w_{32}+10w_{42})\\
+&-\frac{1}{3}(170w_{13}-238y_{13}+150w_{23}-210y_{23}+36w_{33}+10w_{43})\\
+s.t. \quad &x_1+x_2+x_3\leq500, 3x_1+100y_{11}-100w_{11}\geq200 \\
+&3.6x_2+100y_{21}-100w_{21}\geq 2.4, 100w_{31}+100w_{41}\leq24x_3,100w_{31}\leq6000 \\
+&2.5x_1+100y_{12}-100w_{12}\geq200, 3x_2+100y_{22}-100w_{22}\geq240 \\               
+&100w_{32}+100w_{42}\leq20x_3, 100w_{32}\leq6000,2x_1+y_{13}-w_{13}\geq200 \\   
+&2.4x_2+y_{23}-w_{23}\geq240, w_{33}+w_{43}\leq16x_3,w_{33}\leq6000 \\
+&x,y,w\geq0,y,w\in Z
+\end{aligned}
+\end{equation}
+\end{itemize}
+
+
+\section*{6. Multistage program}
+It is typical in farming to implement crop rotation in order to maintain
+good soil quality. Sugar beets would, for example, appear in
+triennial crop rotation, which means they are planted on a given field
+only one out of three years. Formulate a multistage program to describe
+this situation. To keep things simple, describe the case when sugar beets cannot be planted two successive years on the same field,
+and assume no such rule applies for wheat and corn.
+\\
+(On a two-year basis, this exercise consists purely of formulation:
+with the basic data of the example, the solution is clearly to repeat
+the optimal solution in Table 5, i.e., to plant 170 acres of wheat, 80
+acres of corn, and 250 acres of sugar beets. The problem becomes
+more relevant on a three-year basis. It is also relevant on a two-year
+basis with fields of given sizes as in Exercise 2.
+\\
+In terms of formulation, it is sufficient to consider a three-stage
+model. The first stage consists of first-year planting. The second stage
+consists of first-year purchases and sales and second-year planting.
+The third-stage consists of second-year purchases and sales. Alternatively,
+a four-stage model can be built, separating first-year purchases
+and sales from second-year planting. Also discuss the question of discounting
+the revenues and expenses of the various stages.)
+\section*{Solution:}
+\begin{itemize}
+\item Denote $x_{ik}$: acres of land devoted to type $i$ during year $k$
+\item $w_{ijk}$: tons of type $i$ sold during year $k$ in case $j$
+\item $y_{ijk}$: tons of type $i$ purchased during year $k$ in case $j$
+\item According to sugar beets cannot be planted two successive years on the same field, we have,
+\begin{equation}
+\begin{aligned}
+min \quad &\sum_{k=1}^2 150x_{1k}+230x_{2k}+260x_{3k} \\                                                                      
+& -\frac{1}{3}(170w_{111}-238y_{111}+150w_{211}-210y_{211}+36w_{311}+10w_{411} \\
+& -\frac{1}{3}(170w_{121}-238y_{121}+150w_{221}-210y_{221}+36w_{321}+10w_{421} \\
+& -\frac{1}{3}(170w_{131}-238y_{131}+150w_{231}-210y_{231}+36w_{331}+10w_{431} \\
+& -\frac{1}{3}(170w_{112}-238y_{112}+150w_{212}-210y_{212}+36w_{312}+10w_{412} \\
+& -\frac{1}{3}(170w_{122}-238y_{122}+150w_{222}-210y_{222}+36w_{322}+10w_{422} \\
+& -\frac{1}{3}(170w_{132}-238y_{132}+150w_{232}-210y_{232}+36w_{332}+10w_{432} \\ 
+s.t. \quad & x_{1k}+x_{2k}+x_{3k}\leq500,3x_{1k}+y_{11k}-w_{11k}\geq200 \\                                 
+& 3.6x_{2k}+y_{21k}-w_{21k}\geq240,w_{31k}+w_{41k}\leq24x_{3k},w_{31k}\leq6000 \\
+& 2.5x_{1k}+y_{12k}-w_{12k}\geq200,3x_{2k}+y_{22k}-w_{22k}\geq240 \\               
+& w_{32k}+w_{42k}\leq20x_{3k},w_{32k}\leq6000,2x_{1k}+y_{13k}-w_{13k}\geq200 \\
+& 2.4x_{2k}+y_{23k}-w_{23k}\geq240,w_{33k}+w_{43k}\leq16x_{3k},w_{33k}\leq6000 \\
+& for k=1,2
+& x_{32}\leq500-x_{31}
+& x,y,w\geq0
+\end{aligned}
+\end{equation}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
